@@ -1,36 +1,72 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎨 DevSecOps AI Code Reviewer — Next.js Frontend
 
-## Getting Started
+An interactive DevSecOps workspace powered by **Next.js (App Router)**, **Monaco Editor**, and **Vercel AI SDK**. It renders live AI security review streams, automatically highlights vulnerable code lines directly in the editor, calculates security health scores, and provides 1-click side-by-side **Diff Previews** for instant code remediation.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 🌟 Key Features
+
+* **Monaco Editor Integration:** Embedded VS Code editor engine with syntax highlighting, custom line decorators, and gutter markers.
+* **Real-time SSE Token Hydration:** Uses Vercel AI SDK's `useObject` hook to progressively render structured JSON review payloads as tokens stream in.
+* **Side-by-Side Diff Patch Inspector:** 1-click comparison mode allowing developers to inspect original vulnerable code alongside AI-generated security patches.
+* **Live Security Health Scorecard:** Dynamic status badges, severity indicators (`CRITICAL`, `WARNING`, `INFO`), and score gauges based on OWASP benchmarks.
+* **Zero-Lag UI State Machine:** Optimized React rendering that hides full-page loaders the moment the first streaming token arrives.
+
+---
+
+## 🛠️ Tech Stack
+
+* **Framework:** Next.js 15 (App Router, React 19)
+* **Code Editor Engine:** `@monaco-editor/react` (Monaco Editor & Diff Editor)
+* **Streaming Client:** Vercel AI SDK (`ai/react` - `experimental_useObject`)
+* **Styling & UI Components:** Tailwind CSS, Lucide React Icons, clsx, Framer Motion
+* **Type Validation:** Zod, TypeScript
+
+---
+
+## 📁 Repository Structure
+
+```text
+ai-reviewer-frontend/
+├── src/
+│   ├── app/
+│   │   ├── layout.tsx         # Root Layout
+│   │   └── page.tsx           # Main DevSecOps Workspace Page
+│   ├── components/
+│   │   ├── CodeEditor.tsx     # Monaco Editor & Side-by-Side Diff View
+│   │   └── SecurityPanel.tsx  # Live Security Scorecard & OWASP Issues Feed
+│   └── lib/
+│       └── types.ts           # Shared Zod CodeReviewSchema & TS Definitions
+├── .env.local
+├── package.json
+└── tsconfig.json
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+⚙️ Environment Configuration
+Create a `.env.local` file in the frontend root directory:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Code snippet
+```text
+NEXT_PUBLIC_BACKEND_URL=http://localhost:5001/api/v1/review
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+🚦 Getting Started
+1. Install Dependencies
+```bash
+npm install
+```
 
-## Learn More
+2. Start Development Server
+```bash
+npm run dev
+```
+Open http://localhost:3000 in your browser.
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+🖥️ How to Use the Workspace
+* **Select Language:** Choose your target language (JavaScript, TypeScript, Python, Go) from the navbar dropdown.
+* **Paste Code:** Enter or edit your code snippet in the Monaco Editor on the left panel.
+* **Run Scan:** Click Run Security Scan.
+* **Observe Real-time Feedback:**
+  * Watch issues, scores, and summaries populate live on the right panel.
+  * Look for red/yellow gutter markers and inline line highlights directly inside Monaco.
+* **Inspect Security Patches:** Click Inspect & Compare Security Fix (Diff) under any issue to switch Monaco into side-by-side comparison mode and review proposed security fixes.

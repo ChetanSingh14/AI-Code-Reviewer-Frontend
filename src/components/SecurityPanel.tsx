@@ -12,7 +12,14 @@ interface SecurityPanelProps {
 }
 
 export const SecurityPanel: React.FC<SecurityPanelProps> = ({ review, isLoading, onPreviewPatch }) => {
-  if (isLoading && !review?.summary) {
+  const hasStartedStreaming = review && (
+    review.score !== undefined ||
+    review.summary !== undefined ||
+    (review.issues && review.issues.length > 0) ||
+    review.hasCriticalVulnerability !== undefined
+  );
+
+  if (isLoading && !hasStartedStreaming) {
     return (
       <div className="h-full flex flex-col items-center justify-center p-8 bg-slate-950 border border-slate-800 rounded-xl text-slate-400 animate-pulse">
         <Cpu className="w-12 h-12 text-emerald-500 animate-spin mb-4" />
@@ -21,7 +28,7 @@ export const SecurityPanel: React.FC<SecurityPanelProps> = ({ review, isLoading,
     );
   }
 
-  if (!review?.summary && !isLoading) {
+  if (!hasStartedStreaming && !isLoading) {
     return (
       <div className="h-full flex flex-col items-center justify-center p-8 bg-slate-950 border border-slate-800 rounded-xl text-slate-500 text-center">
         <ShieldCheck className="w-16 h-16 text-slate-700 mb-4" />

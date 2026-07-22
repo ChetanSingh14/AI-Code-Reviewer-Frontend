@@ -49,7 +49,7 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({
       });
 
     decorationsRef.current = editorRef.current.deltaDecorations(decorationsRef.current, newDecorations);
-  }, [review]);
+  }, [review?.issues]);
 
   return (
     <div className="relative h-full w-full rounded-xl overflow-hidden border border-slate-800 bg-slate-950 shadow-2xl">
